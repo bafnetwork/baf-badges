@@ -35,3 +35,4 @@ yarn-error.log*
 
 # contract stuff
 contract/target
+contract-config.json
