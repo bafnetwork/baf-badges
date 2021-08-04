@@ -1,10 +1,8 @@
 import React, { useState, useEffect, ComponentType } from 'react'
 import { initContract } from '../utils/init';
+import { NotSignedIn } from './NotSignedIn';
 
-import { NotSignedIn } from './NotSignedIn' ;
-
-
-export function withNear<P>(Inner: ComponentType<P>) {
+export function withNearWallet<P>(Inner: ComponentType<P>) {
   const Wrapped = (props: P) => {
     const [signedIn, setSignedIn] = useState(false);
 
