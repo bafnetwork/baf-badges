@@ -117,6 +117,7 @@ impl NonFungibleTokenMetadataProvider for Contract {
 #[cfg(all(test, not(target_arch = "wasm32")))]
 mod tests {
     use near_sdk::test_utils::{accounts, VMContextBuilder};
+    use near_sdk::MockedBlockchain;
     use near_sdk::testing_env;
 
     use super::*;
