@@ -58,9 +58,9 @@ const CI_BETANET_CONFIG = {
 
 export function getConfig(env: string) {
   switch (env) {
-    case 'production':
     case 'mainnet':
       return MAINNET_CONFIG
+    case 'production':
     case 'development':
     case 'testnet':
       return TESTNET_CONFIG;
