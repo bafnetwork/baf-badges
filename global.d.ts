@@ -9,9 +9,30 @@ export declare global {
 	}
 
 	interface ContractMethods {
-		nft_token?: (args: any) => Promise<any>;
-		mint?: (args: any, gas?: number, amount?: number) => Promise<any>;
+		nft_token?: ContractViewMethod<NFTTokenArgs>;
+		nft_tokens_for_owner?: ContractViewMethod<NFTTokensForOwnerArgs>;
+		mint?: ContractChangeMethod<MintArgs>;
 		nft_transfer?: (args: any, gas?: number, amount?: number) => Promise<any>;
 	}
-  }
-  
+}
+
+export type ContractViewMethod<Args> = (args: Args) => Promise<any>;
+export type ContractChangeMethod<Args> = (args: Args, gas?: number, amount?: number) => Promise<any>;
+ 
+export interface NFTTokenArgs {
+	token_id: string;
+}
+
+/// it must be the case that either both from_index and limit are present or none of them are
+export interface NFTTokensForOwnerArgs {
+	account_id: string;
+	from_index?: number;
+	to_index?: number;
+}
+
+export interface MintArgs {
+	token_id: string;
+	token_owner_id: string;
+	token_metadata?: any;
+}
+

@@ -119,3 +119,8 @@
     flex-direction: column;
   }
 }
+
+.cardImgContainer {
+  height: 8rem;
+  width: auto;
+}
