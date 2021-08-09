@@ -12,7 +12,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@fleekhq/fleek-storage-js": "^1.0.17",
+    "antd": "^4.16.11",
     "near-api-js": "^0.42.0",
     "next": "11.0.1",
     "react": "17.0.2",

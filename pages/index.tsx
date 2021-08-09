@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Footer } from '../components/Footer';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
+import { LoadingOutlined } from '@ant-design/icons';
 
 function Home() {
   return (
@@ -13,10 +14,13 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to BAF Badges!
         </h1>
+
+        <LoadingOutlined />
 
         <div className={styles.grid}>
           <Link passHref href="/my-badges">
