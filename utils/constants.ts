@@ -1,0 +1,1 @@
+export const DEFAULT_BADGE_IMAGE_URL = "https://www.blockchainacceleration.org/img/logonavbar.png";

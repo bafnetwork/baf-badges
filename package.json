@@ -14,15 +14,18 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@fleekhq/fleek-storage-js": "^1.0.17",
+    "@hookform/resolvers": "^2.7.1",
     "antd": "^4.16.11",
     "near-api-js": "^0.42.0",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.12.2",
     "reflect-metadata": "^0.1.13",
     "sass": "^1.37.5",
     "typedjson": "^1.7.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "vest": "^3.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

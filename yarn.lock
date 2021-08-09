@@ -371,6 +371,11 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
   integrity sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==
 
+"@hookform/resolvers@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.7.1.tgz#691f02a82b44317dc30df44765463f2eb73abf09"
+  integrity sha512-dX//pnHJK9CJSz0bURQ7B84vSy1OnqJmB+ziVY4Jvc5VyL2qe0l3ol8QicCkjKxFdlOLlAds+eF0H0u8HELk5A==
+
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"
@@ -3425,6 +3430,11 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
+react-hook-form@^7.12.2:
+  version "7.12.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.12.2.tgz#2660afbf03c4ef360a9314ebf46ce3d972296c77"
+  integrity sha512-cpxocjrgpMAJCMJQR51BQhMoEx80/EQqePNihMTgoTYTqCRbd2GExi+N4GJIr+cFqrmbwNj9wxk5oLWYQsUefg==
+
 react-is@17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
@@ -4223,6 +4233,11 @@ varint@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/varint/-/varint-6.0.0.tgz#9881eb0ce8feaea6512439d19ddf84bf551661d0"
   integrity sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==
+
+vest@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/vest/-/vest-3.2.5.tgz#89b22645d92a192641011d900c1a6333a668d388"
+  integrity sha512-AQa/NOtHMTnJAP8m6gIX6N9OvScCaud6qu78s+zjX5yJ3PgM3FNWC1H5d81Es3IUGAuGS/6XrMyebHK+arzzSQ==
 
 vm-browserify@1.1.2, vm-browserify@^1.0.1:
   version "1.1.2"
