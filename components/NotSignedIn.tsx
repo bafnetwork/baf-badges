@@ -10,6 +10,6 @@ export function NotSignedIn() {
         <p style={{ textAlign: 'center', marginTop: '2.5em' }}>
           <button onClick={login}>Sign in</button>
         </p>
-      </main>
+    </main>
 	)
 }

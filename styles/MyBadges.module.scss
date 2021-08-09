@@ -1,0 +1,6 @@
+.container {
+	display: grid;
+	grid-template-columns: auto;
+	padding-left: minmax(2rem, 20%);
+	padding-right: minmax(2rem, 20%);
+}

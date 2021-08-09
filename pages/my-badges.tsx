@@ -1,12 +1,14 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/MyBadges.module.scss';
+import { Layout } from '../components/Layout/Layout';
 import { withNearWallet } from '../components/withNearWallet';
-import { Footer } from '../components/Footer';
+import { Footer } from '../components/Footer/Footer';
 import { BafBadge } from '../utils/badgeTypes';
 import { getAllBadgesForOwner } from '../utils/badge';
 import { useState, useEffect } from 'react';
-import { BadgeCard } from '../components/badgeCard';
+import { BadgeCard } from '../components/BadgeCard/BadgeCard';
+import { Typography } from 'antd';
+
+const { Title } = Typography;
 
 function MyBadges() {
 	const [badges, setBadges] = useState<BafBadge[]>([]);
@@ -17,26 +19,21 @@ function MyBadges() {
 
 	return (
 		<div className={styles.container}>
-			<Head>
-				<title>My Badges</title>
-				<meta name="description" content="BAF Badges View Badges Page" />
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
+			<Title>My Badges</Title>
 
-			<main className={styles.main}>
-				<h1 className={styles.title}>
-					My Badges
-				</h1>
-
-				<div className={styles.grid}>
-					{ badges.map(BadgeCard) }	
-				</div>
-
-			</main>
-
-			<Footer/>
+			<div>
+				{ badges.map(BadgeCard) }	
+			</div>
 		</div>
 	);
 }
+
+const GetLayout = (page: any) => {
+	<Layout pageTitle="My Badges">
+		{ page }
+	</Layout>
+}
+
+MyBadges.getLayout = GetLayout;
 
 export default withNearWallet(MyBadges);

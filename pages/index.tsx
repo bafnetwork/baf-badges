@@ -1,62 +1,70 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { Footer } from '../components/Footer';
+import { Layout } from '../components/Layout/Layout';
 import Link from 'next/link';
-import styles from '../styles/Home.module.css';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Typography, Card } from 'antd';
+import { ArrowRightOutlined } from '@ant-design/icons';
+import { withLink } from '../components/withLink';
+import styles from '../styles/Index.module.scss'
+
+const { Title } = Typography;
+
+const ArrowRightOutlinedLink = withLink(ArrowRightOutlined);
 
 function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>BAF Badges</title>
-        <meta name="description" content="BAF Badges Landing Page" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <Title>
+        Welcome to BAF Badges!
+      </Title>
 
+      <div className={styles.grid}>
+        <Card
+          title="My Badges"
+          actions={[
+            <ArrowRightOutlinedLink key="my-badges" href="/my-badges"/>
+          ]}
+        >
+          View your badges.
+        </Card>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to BAF Badges!
-        </h1>
+        <Card
+          title="Badge Graph"
+          actions={[
+            <ArrowRightOutlinedLink key="badge-graph" href="/graph"/>
+          ]}
+        >
+          Coming Soon!
+        </Card>
 
-        <LoadingOutlined />
+        <Card
+          title="Mint Badges"
+          actions={[
+            <ArrowRightOutlinedLink key="mint-badges" href="/mint-badges"/>
+          ]}
+        >
+          Coming Soon!
+        </Card>
 
-        <div className={styles.grid}>
-          <Link passHref href="/my-badges">
-            <a className={styles.card}>
-                <h2>My Badges &rarr;</h2>
-                <p>View your badges.</p>
-            </a>
-          </Link>
+        <Card
+          title="About BAF Badges"
+          actions={[
+            <ArrowRightOutlinedLink key="about" href="/about"/>
+          ]}
+        >
+          Coming Soon!
+        </Card>
 
-          <Link passHref href="/graph">
-            <a className={styles.card}>
-                <h2>Badge Graph &rarr;</h2>
-                <p>Coming soon!</p>
-            </a>
-          </Link>
-
-          <Link passHref href="/mint-badges">
-            <a className={styles.card}>
-                <h2>Mint Badges &rarr;</h2>
-                <p>Coming soon!</p>
-            </a>
-          </Link>
-
-          <Link passHref href="/about">
-            <a className={styles.card}>
-                <h2>About BAF Badges &rarr;</h2>
-                <p>Coming soon!</p>
-            </a>
-          </Link>
-        </div>
-      </main>
-
-
-	    <Footer/>
-    </div>
+      </div>
+    </>
   );
 }
+
+const GetLayout = (page: any) => (
+  <Layout>
+    {page}
+  </Layout>
+);
+
+Home.getLayout = GetLayout
 
 export default Home;
