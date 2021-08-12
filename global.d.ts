@@ -23,8 +23,8 @@ export type ContractChangeMethod<Args> = (params: ContractChangeMethodParams<Arg
  
 export interface ContractChangeMethodParams<Args> {
 	args: Args,
-	gas?: number | string,
-	amount?: number | string
+	gas?: string,
+	amount?: string
 }
 
 export interface NFTTokenArgs {
