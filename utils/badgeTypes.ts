@@ -57,7 +57,7 @@ export class NearNFT {
 export type RequirementType = 'SINGLE' | 'ONE_OF' | 'N_OF' | 'ALL_OF';
 
 @jsonObject
-export class BafBadgeRequirement {
+export class BafBadgeRequirements {
 	// type of the badge requirement. Possible values are 'SINGLE', 'ONE_OF', 'N_OF', and 'ALL_OF'
 	@jsonMember
 	public _type!: RequirementType;
@@ -66,8 +66,8 @@ export class BafBadgeRequirement {
 	public text!: string;
 
 	// used for requirement types other than 'SINGLE'. Empty for 'SINGLE'.
-	@jsonArrayMember(() => BafBadgeRequirement)
-	public subRequirements!: BafBadgeRequirement[];
+	@jsonArrayMember(() => BafBadgeRequirements)
+	public subRequirements!: BafBadgeRequirements[];
 }
 
 @jsonObject
@@ -84,9 +84,8 @@ export class BafBadgeDocument {
 	@jsonMember
 	public url!: string | null;
 
-	// requirements for fulfilling the badge. Can be empty in circumstances where it doesn't make sense.
-	@jsonArrayMember(BafBadgeRequirement)
-	public requirements!: BafBadgeRequirement[];
+	// stuff they did for fulfilling the badge. Can be empty in circumstances where it doesn't make sense.
+	public requirements!: BafBadgeRequirements | null;
 }
 
 
