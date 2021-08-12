@@ -11,7 +11,12 @@ export const ContractMethodNotInitializedError = (method: string) => createError
 export const DeserializationError = (_type: string, raw: any) => createError(
 	'DeserializationError',
 	`failed to deserialize ${raw} to ${_type}`
-)
+);
+
+export const SerializationError = (_type: string, raw: any) => createError(
+	'SerializationError',
+	`failed to serialize ${raw} to ${_type}`
+);
 
 export const MalformedResponseError = (url: string, reason: string) => createError(
 	'MalformedResponseError',

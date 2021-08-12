@@ -1,7 +1,7 @@
 import { TypedJSON } from 'typedjson';
 import { NearNFT, BafBadgeDocument, BafBadge } from './badgeTypes';
-import { BadgeDocumentNotFoundError, ContractMethodNotInitializedError, DeserializationError, MalformedResponseError, NFTMediaIntegrityError, NFTReferenceIntegrityError, ReceivedInternalServerError, UnexpectedStatusError } from './errors';
-import uuid from 'uuid';
+import { BadgeDocumentNotFoundError, ContractMethodNotInitializedError, DeserializationError, MalformedResponseError, NFTMediaIntegrityError, NFTReferenceIntegrityError, ReceivedInternalServerError, SerializationError, UnexpectedStatusError } from './errors';
+import { v4 as uuid } from 'uuid';
 import { sha256 } from './crypto';
 
 const UPLOAD_BADGE_PATH = 'api/uploadDocument';
@@ -111,7 +111,7 @@ export async function getAllBadgesForOwner(ownerAccountID: string): Promise<BafB
 export interface BafBadgeCreateArgs {
 	title: string;
 	description: string;
-	offChain: BafBadgeDocument;
+	offChain: Omit<BafBadgeDocument, "badgeID">;
 }
 
 export async function mintBadge(recipientAccountID: string, badgeMediaURL: string, args: BafBadgeCreateArgs): Promise<BafBadge> {
@@ -119,9 +119,17 @@ export async function mintBadge(recipientAccountID: string, badgeMediaURL: strin
 		throw ContractMethodNotInitializedError('mint');
 	}
 
-	const token_id = uuid.v4().toString();
+	const badgeID = uuid().toString();
 
-	const documentPublicUrl = await uploadBadgeDocument(args.offChain);
+	const document = badgeDocumentSerializer.parse({
+		...args.offChain,
+		badgeID
+	});
+	if (!document) {
+		throw SerializationError('BafBadgeDocument', document);
+	}
+
+	const documentPublicUrl = await uploadBadgeDocument(document);
 
 	const token_metadata = {
 		title: args.title,
@@ -135,7 +143,7 @@ export async function mintBadge(recipientAccountID: string, badgeMediaURL: strin
 
 	const nftRaw = await window.contract.mint(
 		{
-			token_id,
+			token_id: badgeID,
 			token_owner_id: recipientAccountID,
 			token_metadata,
 		},
@@ -148,9 +156,12 @@ export async function mintBadge(recipientAccountID: string, badgeMediaURL: strin
 		throw DeserializationError('NearNFT', nftRaw);
 	}
 
+	// ! FIXME: this is optimistic. In some circumstances, we should maybe 
+	// ! fetch the document from fleek using documentPublicURL first
+	// TODO: add an "omptimistic flag" to this method so you can choose. Default to true.
 	return {
 		onChain: nft,
-		offChain: args.offChain
+		offChain: document
 	}
 }
 

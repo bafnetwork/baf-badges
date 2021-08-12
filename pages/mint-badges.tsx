@@ -7,8 +7,7 @@ import { vestResolver } from '@hookform/resolvers/vest';
 import vest from 'vest';
 import { vestUtils } from '../utils/misc';
 import { DEFAULT_BADGE_IMAGE_URL } from '../utils/constants';
-import { Typography, Form } from 'antd';
-import uuid from 'uuid';
+import { Typography, Form, Button } from 'antd';
 
 const { Title } = Typography;
 
@@ -39,27 +38,26 @@ function MintBadges() {
 
 	const onSubmit = handleSubmit(async (data: MintBadgesFormData) => {
 		const { title, description, recipient } = data;
-		const badgeID = uuid.v4();
 		
 
-		await mintBadge(recipient, DEFAULT_BADGE_IMAGE_URL, {
+		const badge = await mintBadge(recipient, DEFAULT_BADGE_IMAGE_URL, {
 			title,
 			description,
 			offChain: {
-				badgeID,
 				artistID: null,
 				url: null,
 				requirements: []
 			}
 		});
-		console.log(`successfully minted badge ${badgeID} to address ${recipient}`);
+		
+		console.log(`successfully minted badge ${badge.onChain.token_id} to address ${recipient}`);
 
 	})
 
 	return (
 		<>
 			<Title>Mint Badge</Title>
-			<Form>
+			<Form onFinish={onSubmit}>
 				<TextInput
 					control={control}
 					label="Title"
@@ -77,7 +75,10 @@ function MintBadges() {
 					control={control}
 					label="Recipient"
 					fieldName="recipient"
-				/>	
+				/>
+				<Button htmlType="submit">
+                	Submit
+              	</Button>
 
 			</Form>
 		</>
