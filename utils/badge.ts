@@ -5,8 +5,13 @@ import { v4 as uuid } from 'uuid';
 import { sha256 } from './crypto';
 
 const UPLOAD_BADGE_PATH = 'api/uploadDocument';
-const BADGE_DOCUMENT_BASE_PATH = 'storageapi.fleek.co/sladuca-team-bucket'
 
+// fee required for the minter to pay in order to mint an NFT.
+// this fee is used by the contract to cover storage costs, as on NEAR
+// the contract has to pay "rent" for its storage.
+// right now, this is a naively-set "yeah, this should be enough" value
+// TODO: (lowest priority) figure out a way to calculate an upper bound on how much it should cost
+const MINT_STORAGE_FEE = "20000000000000000000000";
 const nftSerializer = new TypedJSON(NearNFT);
 const badgeDocumentSerializer = new TypedJSON(BafBadgeDocument);
 
@@ -27,7 +32,8 @@ export async function getBadgeNFT(badgeID: string): Promise<NearNFT> {
 
 // return fleek pubic url
 export async function uploadBadgeDocument(document: BafBadgeDocument): Promise<string> {
-	const request = new Request(UPLOAD_BADGE_PATH, {
+	const url = `${UPLOAD_BADGE_PATH}/${document.badgeID}`;
+	const request = new Request(url, {
 		method: 'POST',
 		body: badgeDocumentSerializer.stringify(document)
 	});
@@ -43,12 +49,12 @@ export async function uploadBadgeDocument(document: BafBadgeDocument): Promise<s
 		case 500:
 			throw ReceivedInternalServerError(UPLOAD_BADGE_PATH);
 		default:
-			throw UnexpectedStatusError(UPLOAD_BADGE_PATH, response.status);
+			throw UnexpectedStatusError(url, response.status);
 	}
 }
 
 export async function getBadgeDocument(nft: NearNFT): Promise<BafBadgeDocument> {
-	const url = `${BADGE_DOCUMENT_BASE_PATH}/${nft.metadata.reference}`;
+	const url = nft.metadata.reference;
 	const response = await window.fetch(url);
 
 	switch (response.status) {
@@ -62,7 +68,7 @@ export async function getBadgeDocument(nft: NearNFT): Promise<BafBadgeDocument> 
 		case 404: 
 			throw BadgeDocumentNotFoundError(nft.token_id, url);
 		default:
-			throw UnexpectedStatusError(BADGE_DOCUMENT_BASE_PATH, response.status);
+			throw UnexpectedStatusError(url, response.status);
 	}
 }
 
@@ -115,7 +121,7 @@ export interface BafBadgeCreateArgs {
 }
 
 export async function mintBadge(recipientAccountID: string, badgeMediaURL: string, args: BafBadgeCreateArgs): Promise<BafBadge> {
-	if (!window.contract.mint) {
+	if (!window.contract.nft_mint) {
 		throw ContractMethodNotInitializedError('mint');
 	}
 
@@ -130,6 +136,7 @@ export async function mintBadge(recipientAccountID: string, badgeMediaURL: strin
 	}
 
 	const documentPublicUrl = await uploadBadgeDocument(document);
+	console.log(`uploaded document for badge ${badgeID} to ${documentPublicUrl}`)
 
 	const token_metadata = {
 		title: args.title,
@@ -141,15 +148,14 @@ export async function mintBadge(recipientAccountID: string, badgeMediaURL: strin
 		reference_hash: await sha256(documentPublicUrl),
 	}
 
-	const nftRaw = await window.contract.mint(
-		{
+	const nftRaw = await window.contract.nft_mint({
+		args: {
 			token_id: badgeID,
 			token_owner_id: recipientAccountID,
 			token_metadata,
 		},
-		undefined,
-		1
-	);
+		amount: MINT_STORAGE_FEE
+	});
 
 	const nft = nftSerializer.parse(nftRaw);
 	if (!nft) {

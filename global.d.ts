@@ -11,14 +11,22 @@ export declare global {
 	interface ContractMethods {
 		nft_token?: ContractViewMethod<NFTTokenArgs>;
 		nft_tokens_for_owner?: ContractViewMethod<NFTTokensForOwnerArgs>;
-		mint?: ContractChangeMethod<MintArgs>;
-		nft_transfer?: (args: any, gas?: number, amount?: number) => Promise<any>;
+		nft_mint?: ContractChangeMethod<MintArgs>;
+
+		// TODO: add type for TransferArgs
+		nft_transfer?: ContractChangeMethod<any>;
 	}
 }
 
 export type ContractViewMethod<Args> = (args: Args) => Promise<any>;
-export type ContractChangeMethod<Args> = (args: Args, gas?: number, amount?: number) => Promise<any>;
+export type ContractChangeMethod<Args> = (params: ContractChangeMethodParams<Args>) => Promise<any>;
  
+export interface ContractChangeMethodParams<Args> {
+	args: Args,
+	gas?: number | string,
+	amount?: number | string
+}
+
 export interface NFTTokenArgs {
 	token_id: string;
 }

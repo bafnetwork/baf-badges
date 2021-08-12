@@ -1,11 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import uuid from 'uuid';
 import { upload } from '@fleekhq/fleek-storage-js';
 
-interface ResponseData {
+interface UploadOkResponse {
   url: string;
 }
+
+interface ErrorResponse {
+  msg: string;
+}
+
+type UploadResponse = UploadOkResponse | ErrorResponse;
 
 const getFleekAPIKey = () => {
   if (!process.env.FLEEK_API_KEY) {
@@ -21,18 +26,26 @@ const getFleekAPISecret = () => {
   return process.env.FLEEK_API_SECRET;
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<UploadResponse>
 ) {
 
-  upload({
-    apiKey: getFleekAPIKey(),
-    apiSecret: getFleekAPISecret(),
-    key: `badge-documents/${uuid.v4()}`,
-    data: req
-  }).then(uploadedFile => {
+  const { badgeID } = req.query;
+
+  try {
+    const uploadedFile = await upload({
+      apiKey: getFleekAPIKey(),
+      apiSecret: getFleekAPISecret(),
+      key: `badge-documents/${badgeID}`,
+      bucket: 'baf-bucket',
+      data: req.body
+    });
+
     const url = uploadedFile.publicUrl;
     res.status(201).json({ url });
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json( { msg: "Internal Server Error" });
+  }
 }
