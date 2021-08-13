@@ -27,8 +27,9 @@ const validationSuite = vest.create((data: MintBadgesFormData | Record<string, n
 	required('recipient');
 
 	// TODO: validate data.recipient to make sure it's a valid NEAR accountID and the account exists
-	// TODO: validate data.artistID to make sure it's a valid NEAR accountID and the account exists
-	// TODO: validate data.url to make sure it's a valid URL
+	// TODO: validate data.artistID to make sure either it's not given or it's a valid NEAR accountID and the account exists
+	// TODO: validate data.url to make sure either it's not given or it's a valid url.
+	// see https://github.com/bafnetwork/baf-badges/issues/6 
 })
 
 function MintBadges() {
@@ -46,7 +47,7 @@ function MintBadges() {
 			offChain: {
 				artistID: null,
 				url: null,
-				requirements: []
+				requirements: null
 			}
 		});
 		
@@ -76,6 +77,8 @@ function MintBadges() {
 					label="Recipient"
 					fieldName="recipient"
 				/>
+				{/* TODO: add "url" field with a tooltip that says what it's for */}
+				{/* see https://github.com/bafnetwork/baf-badges/issues/7 */}
 				<Button htmlType="submit">
                 	Submit
               	</Button>

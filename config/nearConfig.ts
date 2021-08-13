@@ -31,9 +31,11 @@ const BETANET_CONFIG = {
   explorerUrl: 'https://explorer.betanet.near.org',
 }
 
-// ! localnet is disabled right now due to the fact that we home dir
-// ! and we don't have a straightforward way to get that
-// TODO: figure out a way to dynamically load this env var in `next dev`
+// ! localnet is disabled right now due to the fact that it 
+// ! requires getting the home dir and we don't have a 
+// ! straightforward way to get that
+// TODO: (low priority) figure out a way to dynamically load this env var in `next dev`
+// see https://github.com/bafnetwork/baf-badges/issues/3
 // const LOCALNET_CONFIG = {
 //   networkId: 'local',
 //   nodeUrl: 'http://localhost:3030',

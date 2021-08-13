@@ -2,6 +2,7 @@
 
 # this script deploys an entirely separate contract every time'
 # TODO: cheksum the contract source + Cargo.lock + build.sh and skip over this entire script unless it changes
+# see https://github.com/bafnetwork/baf-badges/issues/4
 
 echo "deleting neardev and redeploying a new instance of the contract..\n\n"
 

@@ -13,6 +13,7 @@ export function Footer() {
           A Project by{' '}
           <span className={styles.logo}>
             {/* TODO: use BAF logo */}
+            {/* see https://github.com/bafnetwork/baf-badges/issues/2 */}
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>

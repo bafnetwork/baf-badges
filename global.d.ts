@@ -14,6 +14,7 @@ export declare global {
 		nft_mint?: ContractChangeMethod<MintArgs>;
 
 		// TODO: add type for TransferArgs
+		// see https://github.com/bafnetwork/baf-badges/issues/1
 		nft_transfer?: ContractChangeMethod<any>;
 	}
 }

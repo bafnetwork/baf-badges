@@ -162,9 +162,6 @@ export async function mintBadge(recipientAccountID: string, badgeMediaURL: strin
 		throw DeserializationError('NearNFT', nftRaw);
 	}
 
-	// ! FIXME: this is optimistic. In some circumstances, we should maybe 
-	// ! fetch the document from fleek using documentPublicURL first
-	// TODO: add an "omptimistic flag" to this method so you can choose. Default to true.
 	return {
 		onChain: nft,
 		offChain: document
