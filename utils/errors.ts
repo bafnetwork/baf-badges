@@ -48,4 +48,7 @@ export const BadgeDocumentNotFoundError = (badgeID: string, url: string) => crea
 	`metadata for badge ${badgeID} not found at ${url}`
 );
 
-
+export const InvalidPageEnumValue = (val: any) => createError(
+	'InvalidPageEnumValue',
+	`getPageTitle received invalid page enum value ${val}`
+);

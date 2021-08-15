@@ -1,30 +1,86 @@
 import { Footer } from '../Footer/Footer';
-import styles from './Layout.module.scss';
+import { AccountIndicator } from '../AccountIndicator'
 import Head from 'next/head';
-import { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
+import { Layout as AntLayout, Menu } from 'antd';
+import { InvalidPageEnumValue } from '../../utils/errors';
+import styles from './Layout.module.scss';
+
+const { Content, Sider, Header } = AntLayout;
+
+export enum PageName {
+	HOME = 0,
+	MY_BADGES = 1,
+	MINT_BADGES = 2,
+	BADGE_GRAPH = 3
+}
+
+const getPageTitle = (page: PageName): string => {
+	switch (page) {
+		case PageName.HOME:
+			return "BAF Badges";
+		case PageName.MY_BADGES:
+			return "My Badges";
+		case PageName.MINT_BADGES:
+			return "Mint Badges";
+		case PageName.BADGE_GRAPH:
+			return "Graph View";
+		default:
+			throw InvalidPageEnumValue(page);
+	}
+}
+
 
 export interface LayoutProps {
 	children: ReactNode,
-	pageTitle?: string;
+	page: PageName
 }
 
-export function Layout<P>({ children, pageTitle }: LayoutProps) {
-	if (!pageTitle) {
-		pageTitle = "BAF Badges";
-	}
+export function Layout({ children, page }: LayoutProps) {
+	const [siderCollapsed, setSiderCollapsed] = useState(true);
 
 	return (
 		<>
 			<Head>
-				<title>{pageTitle}</title>
+				<title>{getPageTitle(page)}</title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<div className={styles.container}>
-				<div className={styles.content}>
-					{children}
-				</div>
-				<Footer/>
-			</div>
+			<AntLayout className={styles.mainLayout}>
+				<Sider
+					breakpoint="lg"
+					collapsible
+					collapsedWidth={0}
+					collapsed={siderCollapsed}
+					onCollapse={(collapsed, _reason) => {
+						setSiderCollapsed(collapsed)
+					}}
+				>
+					<AccountIndicator/>
+					{/* TODO: pick icons for these */}
+					{/*  */}
+					<Menu theme="dark" defaultSelectedKeys={[page.toString()]}>
+						<Menu.Item key={PageName.HOME.toString()}>
+							Home
+						</Menu.Item>
+						<Menu.Item key={PageName.MY_BADGES.toString()}>
+							My Badges	
+						</Menu.Item>
+						<Menu.Item key={PageName.MINT_BADGES.toString()}>
+							Mint Badges
+						</Menu.Item>
+						<Menu.Item key={PageName.BADGE_GRAPH.toString()}>
+							Graph View
+						</Menu.Item>
+					</Menu>
+				</Sider>
+				<AntLayout>
+					<Header></Header>
+					<Content className={styles.content}>
+						{children}
+					</Content>
+					<Footer/>
+				</AntLayout>
+			</AntLayout>
 		</>
 	)
 }

@@ -1,10 +1,7 @@
-.content {
-	display: grid;
-	grid-template-rows: 2rem auto 2rem;
-	grid-template-columns: 2rem auto 2rem;
+.mainLayout {
+	min-height: 100vh;
 }
 
-.container {
-	display: grid;
-	grid-template-rows: minmax(4rem, auto) auto auto
+.content {
+	padding: 3rem 1rem 1rem 1rem
 }

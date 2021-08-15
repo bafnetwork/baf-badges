@@ -1,4 +1,4 @@
-import { Layout } from '../components/Layout/Layout';
+import { Layout, PageName } from '../components/Layout/Layout';
 import { withNearWallet } from '../components/withNearWallet';
 import { mintBadge } from '../utils/badge';
 import { useForm } from 'react-hook-form';
@@ -89,7 +89,7 @@ function MintBadges() {
 }
 
 const GetLayout = (page: any) => {
-	<Layout pageTitle="Mint Badge">
+	<Layout page={PageName.MINT_BADGES}>
 		{ page }
 	</Layout>
 }

@@ -1,4 +1,4 @@
-import { Layout } from '../components/Layout/Layout';
+import { Layout, PageName } from '../components/Layout/Layout';
 import Link from 'next/link';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Typography, Card } from 'antd';
@@ -60,7 +60,7 @@ function Home() {
 }
 
 const GetLayout = (page: any) => (
-  <Layout>
+  <Layout page={PageName.HOME}>
     {page}
   </Layout>
 );

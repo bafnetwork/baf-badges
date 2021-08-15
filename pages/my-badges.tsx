@@ -1,5 +1,5 @@
 import styles from '../styles/MyBadges.module.scss';
-import { Layout } from '../components/Layout/Layout';
+import { Layout, PageName } from '../components/Layout/Layout';
 import { withNearWallet } from '../components/withNearWallet';
 import { Footer } from '../components/Footer/Footer';
 import { BafBadge } from '../utils/badgeTypes';
@@ -29,7 +29,7 @@ function MyBadges() {
 }
 
 const GetLayout = (page: any) => {
-	<Layout pageTitle="My Badges">
+	<Layout page={PageName.MY_BADGES}>
 		{ page }
 	</Layout>
 }
