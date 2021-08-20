@@ -9,6 +9,7 @@ import { vestUtils } from '../utils/misc';
 import { DEFAULT_BADGE_IMAGE_URL } from '../utils/constants';
 import { Typography, Form, Button, Spin, Result } from 'antd';
 import { useRouter } from 'next/router';
+import { LinkButton } from '../components/LinkButton';
 import { pollTxStatus, TxStatus } from '../utils/near';
 import { useEffect, useState } from 'react';
 import { UnexpectedUIStateError } from '../utils/errors';
@@ -40,7 +41,7 @@ function MintBadges() {
 	const router = useRouter();
 	const [txStatus, setTxStatus] = useState<TxStatus | undefined>(undefined);
 	const [currentBadgeId, setCurrentBadgeId] = useState<string | undefined>(undefined);
-	const [explorerLink, setExplorerLink] = useState<string | undefined>(undefined);
+	const [explorerUrl, setExplorerUrl] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		if (router.query?.transactionHashes) {
@@ -48,7 +49,7 @@ function MintBadges() {
 			console.log(txHash);
 			const cleanup = pollTxStatus(txHash as string, (statusInfo) => {
 				setTxStatus(statusInfo.status);
-				setExplorerLink(statusInfo.explorerUrl);
+				setExplorerUrl(statusInfo.explorerUrl);
 			});
 
 			return cleanup;
@@ -85,10 +86,10 @@ function MintBadges() {
 						title="Transaction Failure"
 						subTitle="Failed to mint new NFT"
 						extra={[
-							<Button type="primary" key="explorer">
-								See Explorer
-							</Button>,
 							<Button key="dismiss">Dismiss</Button>,
+							<LinkButton key="explorer" href={explorerUrl ?? "#"} target="_none" >
+								See Explorer
+							</LinkButton>	 
 						]}
 					/>
 				);
@@ -99,10 +100,10 @@ function MintBadges() {
 						title="Transaction Successful"
 						subTitle="Successfully minted badge"
 						extra={[
-							<Button type="primary" key="explorer">
-								See Explorer
-							</Button>,
 							<Button key="dismiss">Dismiss</Button>,
+							<LinkButton key="explorer" href={explorerUrl ?? "#"} target="_none">
+								See Explorer
+							</LinkButton>	 
 						]}
 					/>
 				);
@@ -111,9 +112,9 @@ function MintBadges() {
 				return (
 					<div>
 						<Spin/>
-						<Button type="primary" key="explorer">
+						<LinkButton href={explorerUrl ?? "#"} target="_none">
 							See Explorer
-						</Button>
+						</LinkButton>	 
 					</div>
 				);
 			default:
