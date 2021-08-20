@@ -20,10 +20,12 @@ const MAX_POLLS = 10;
 
 const provider = new providers.JsonRpcProvider(nearConfig.nodeUrl);
 
+export const getExplorerUrl = (txHash: string) => nearConfig.explorerUrl ? `${nearConfig.explorerUrl}/transactions/${txHash}` : undefined;
+
 export async function getTxStatus(txHash: string): Promise<TxStatusInfo> {
 	const inner = await provider.txStatus(txHash, window.accountId);
 	console.log(inner);
-	const explorerUrl = nearConfig.explorerUrl ? `${nearConfig.explorerUrl}/transactions/${txHash}` : undefined;
+	const explorerUrl = getExplorerUrl(txHash);
 	switch (inner.status) {
 		case "Failure":
 			return {
