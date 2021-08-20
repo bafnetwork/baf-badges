@@ -46,7 +46,7 @@ function Home() {
             <RightArrowLink key="mint-badges" href="/mint-badges"/>
           ]}
         >
-          Coming Soon!
+          Mint new badges.
         </Card>
 
         <Card
