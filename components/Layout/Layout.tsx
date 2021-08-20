@@ -1,6 +1,7 @@
 import { Footer } from '../Footer/Footer';
 import { AccountIndicator } from '../AccountIndicator'
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { ReactNode, useState } from 'react';
 import { Layout as AntLayout, Menu } from 'antd';
 import { InvalidPageEnumValue } from '../../utils/errors';
@@ -38,6 +39,7 @@ export interface LayoutProps {
 
 export function Layout({ children, page }: LayoutProps) {
 	const [siderCollapsed, setSiderCollapsed] = useState(true);
+	const router = useRouter();
 
 	return (
 		<>
@@ -59,17 +61,17 @@ export function Layout({ children, page }: LayoutProps) {
 					{/* TODO: pick icons for these */}
 					{/*  */}
 					<Menu theme="dark" defaultSelectedKeys={[page.toString()]}>
-						<Menu.Item key={PageName.HOME.toString()}>
+						<Menu.Item key={PageName.HOME.toString()} onClick={() => router.push('/')}>
 							Home
 						</Menu.Item>
-						<Menu.Item key={PageName.MY_BADGES.toString()}>
+						<Menu.Item key={PageName.MY_BADGES.toString()} onClick={() => router.push('/my-badges')}>
 							My Badges	
 						</Menu.Item>
-						<Menu.Item key={PageName.MINT_BADGES.toString()}>
+						<Menu.Item key={PageName.MINT_BADGES.toString()} onClick={() => router.push('/mint-badges')}>
 							Mint Badges
 						</Menu.Item>
 						<Menu.Item key={PageName.BADGE_GRAPH.toString()}>
-							Graph View
+							Graph View - Coming Soon!
 						</Menu.Item>
 					</Menu>
 				</Sider>
