@@ -50,6 +50,8 @@ function MintBadges() {
 				setTxStatus(statusInfo.status);
 				setExplorerLink(statusInfo.explorerUrl);
 			});
+
+			return cleanup;
 		}
 	})
 
