@@ -1,14 +1,18 @@
 import { Layout, PageName } from '../components/Layout/Layout';
-import Link from 'next/link';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Typography, Card } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
-import { withLink } from '../components/withLink';
 import styles from '../styles/Index.module.scss'
+import { LinkButton } from '../components/LinkButton';
 
 const { Title } = Typography;
 
-const ArrowRightOutlinedLink = withLink(ArrowRightOutlined);
+interface RightArrowLinkProps {
+  href: string,
+  key: string
+};
+
+const RightArrowLink = ({ href, key }: RightArrowLinkProps) => <div key={key}><LinkButton href={href} icon={<ArrowRightOutlined/>}/></div>
 
 function Home() {
   return (
@@ -21,7 +25,7 @@ function Home() {
         <Card
           title="My Badges"
           actions={[
-            <ArrowRightOutlinedLink key="my-badges" href="/my-badges"/>
+            <RightArrowLink key="my-badges" href="/my-badges"/>
           ]}
         >
           View your badges.
@@ -30,7 +34,7 @@ function Home() {
         <Card
           title="Badge Graph"
           actions={[
-            <ArrowRightOutlinedLink key="badge-graph" href="/graph"/>
+            <RightArrowLink key="badge-graph" href="/graph"/>
           ]}
         >
           Coming Soon!
@@ -39,7 +43,7 @@ function Home() {
         <Card
           title="Mint Badges"
           actions={[
-            <ArrowRightOutlinedLink key="mint-badges" href="/mint-badges"/>
+            <RightArrowLink key="mint-badges" href="/mint-badges"/>
           ]}
         >
           Coming Soon!
@@ -48,7 +52,7 @@ function Home() {
         <Card
           title="About BAF Badges"
           actions={[
-            <ArrowRightOutlinedLink key="about" href="/about"/>
+            <RightArrowLink key="about" href="/about"/>
           ]}
         >
           Coming Soon!
@@ -60,8 +64,8 @@ function Home() {
 }
 
 const GetLayout = (page: any) => (
-  <Layout page={PageName.HOME}>
-    {page}
+  <Layout>
+    { page }
   </Layout>
 );
 
