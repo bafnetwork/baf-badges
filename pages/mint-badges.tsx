@@ -159,7 +159,7 @@ function MintBadges() {
 const Wrapped = withNearWallet(MintBadges);
 
 const GetLayout = (page: any) => (
-	<Layout page={PageName.MINT_BADGES}>
+	<Layout>
 		{ page }
 	</Layout>
 );

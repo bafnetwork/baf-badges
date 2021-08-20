@@ -2,9 +2,9 @@ import { Footer } from '../Footer/Footer';
 import { AccountIndicator } from '../AccountIndicator'
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { Layout as AntLayout, Menu } from 'antd';
-import { InvalidPageEnumValue } from '../../utils/errors';
+import { InvalidPageEnumValue, UnknownPage } from '../../utils/errors';
 import styles from './Layout.module.scss';
 
 const { Content, Sider, Header } = AntLayout;
@@ -31,15 +31,37 @@ const getPageTitle = (page: PageName): string => {
 	}
 }
 
-
-export interface LayoutProps {
-	children: ReactNode,
-	page: PageName
+export const getCurrentPage = (path: string): PageName => {
+	switch (path) {
+		case '/':
+			return PageName.HOME;
+		case '/my-badges':
+			return PageName.MY_BADGES;
+		case '/mint-badges':
+			return PageName.MINT_BADGES;
+		case '/graph':
+			return PageName.BADGE_GRAPH;
+		default:
+			throw UnknownPage(path);
+	}
 }
 
-export function Layout({ children, page }: LayoutProps) {
-	const [siderCollapsed, setSiderCollapsed] = useState(true);
+export interface LayoutProps {
+	children: ReactNode
+}
+
+export function Layout({ children }: LayoutProps) {
 	const router = useRouter();
+	const [siderCollapsed, setSiderCollapsed] = useState(true);
+	const [page, setPage] = useState(getCurrentPage(router.pathname));
+
+	useEffect(() => {
+		setPage(getCurrentPage(router.pathname));
+	}, [router.pathname]);
+
+	const onClickMenuLink = (href: string) => () => {
+		router.push(href);
+	}
 
 	return (
 		<>
@@ -49,7 +71,6 @@ export function Layout({ children, page }: LayoutProps) {
 			</Head>
 			<AntLayout className={styles.mainLayout}>
 				<Sider
-					breakpoint="lg"
 					collapsible
 					collapsedWidth={0}
 					collapsed={siderCollapsed}
@@ -60,14 +81,14 @@ export function Layout({ children, page }: LayoutProps) {
 					<AccountIndicator/>
 					{/* TODO: pick icons for these */}
 					{/*  */}
-					<Menu theme="dark" defaultSelectedKeys={[page.toString()]}>
-						<Menu.Item key={PageName.HOME.toString()} onClick={() => router.push('/')}>
+					<Menu theme="dark" selectedKeys={[page.toString()]}>
+						<Menu.Item key={PageName.HOME.toString()} onClick={onClickMenuLink('/')}>
 							Home
 						</Menu.Item>
-						<Menu.Item key={PageName.MY_BADGES.toString()} onClick={() => router.push('/my-badges')}>
+						<Menu.Item key={PageName.MY_BADGES.toString()} onClick={onClickMenuLink('/my-badges')}>
 							My Badges	
 						</Menu.Item>
-						<Menu.Item key={PageName.MINT_BADGES.toString()} onClick={() => router.push('/mint-badges')}>
+						<Menu.Item key={PageName.MINT_BADGES.toString()} onClick={onClickMenuLink('/mint-badges')}>
 							Mint Badges
 						</Menu.Item>
 						<Menu.Item key={PageName.BADGE_GRAPH.toString()}>
