@@ -28,12 +28,14 @@ function MyBadges() {
 	);
 }
 
-const GetLayout = (page: any) => {
+const Wrapped = withNearWallet(MyBadges);
+
+const GetLayout = (page: any) => (
 	<Layout page={PageName.MY_BADGES}>
 		{ page }
 	</Layout>
-}
+);
 
-MyBadges.getLayout = GetLayout;
+(Wrapped as any).getLayout = GetLayout;
 
-export default withNearWallet(MyBadges);
+export default Wrapped;

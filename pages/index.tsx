@@ -61,10 +61,10 @@ function Home() {
 
 const GetLayout = (page: any) => (
   <Layout page={PageName.HOME}>
-    {page}
+    { page }
   </Layout>
 );
 
-Home.getLayout = GetLayout
+Home.getLayout = GetLayout;
 
 export default Home;

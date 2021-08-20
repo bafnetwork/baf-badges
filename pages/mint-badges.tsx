@@ -155,12 +155,15 @@ function MintBadges() {
 	)
 }
 
-const GetLayout = (page: any) => {
+
+const Wrapped = withNearWallet(MintBadges);
+
+const GetLayout = (page: any) => (
 	<Layout page={PageName.MINT_BADGES}>
 		{ page }
 	</Layout>
-}
+);
 
-MintBadges.getLayout = GetLayout;
+(Wrapped as any).getLayout = GetLayout;
 
-export default withNearWallet(MintBadges)
+export default Wrapped;
