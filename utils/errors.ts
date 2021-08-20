@@ -33,6 +33,16 @@ export const UnexpectedStatusError = (url: string, status: number) => createErro
 	`received unexpected status code ${status} from request to ${url}`
 );
 
+export const UnexpectedTxOutcomeError = (txHash: string, statusGot: any) => createError(
+	'UnexpectedTxOutcomeError',
+	`for txHash ${txHash}, received unexpected FinalExecutionOutcome ${statusGot}`
+);
+
+export const UnexpectedUIStateError = (msg: string) => createError(
+	'UnexpectedUIStateError',
+	msg
+);
+
 export const NFTReferenceIntegrityError = (badgeID: string) => createError(
 	'NFTReferenceIntegrityError',
 	`badge ${badgeID}'s metadata.reference_hash does not match metadata.reference!`

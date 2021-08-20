@@ -7,7 +7,11 @@ import { vestResolver } from '@hookform/resolvers/vest';
 import vest from 'vest';
 import { vestUtils } from '../utils/misc';
 import { DEFAULT_BADGE_IMAGE_URL } from '../utils/constants';
-import { Typography, Form, Button } from 'antd';
+import { Typography, Form, Button, Spin, Result } from 'antd';
+import { useRouter } from 'next/router';
+import { pollTxStatus, TxStatus } from '../utils/near';
+import { useEffect, useState } from 'react';
+import { UnexpectedUIStateError } from '../utils/errors';
 
 const { Title } = Typography;
 
@@ -33,13 +37,28 @@ const validationSuite = vest.create((data: MintBadgesFormData | Record<string, n
 })
 
 function MintBadges() {
+	const router = useRouter();
+	const [txStatus, setTxStatus] = useState<TxStatus | undefined>(undefined);
+	const [currentBadgeId, setCurrentBadgeId] = useState<string | undefined>(undefined);
+	const [explorerLink, setExplorerLink] = useState<string | undefined>(undefined);
+
+	useEffect(() => {
+		if (router.query?.transactionHashes) {
+			const txHash = router.query.transactionHashes;
+			console.log(txHash);
+			const cleanup = pollTxStatus(txHash as string, (statusInfo) => {
+				setTxStatus(statusInfo.status);
+				setExplorerLink(statusInfo.explorerUrl);
+			});
+		}
+	})
+
 	const { register, handleSubmit, control, formState: { errors } } = useForm({
 		resolver: vestResolver(validationSuite)
 	});
 
 	const onSubmit = handleSubmit(async (data: MintBadgesFormData) => {
 		const { title, description, recipient } = data;
-		
 
 		const badge = await mintBadge(recipient, DEFAULT_BADGE_IMAGE_URL, {
 			title,
@@ -51,9 +70,54 @@ function MintBadges() {
 			}
 		});
 		
-		console.log(`successfully minted badge ${badge.onChain.token_id} to address ${recipient}`);
-
 	})
+
+	const feedback = () => {
+		switch (txStatus) {
+			case undefined:
+				return <></>
+			case TxStatus.FAILED:
+				return (
+					<Result
+						status="error"
+						title="Transaction Failure"
+						subTitle="Failed to mint new NFT"
+						extra={[
+							<Button type="primary" key="explorer">
+								See Explorer
+							</Button>,
+							<Button key="dismiss">Dismiss</Button>,
+						]}
+					/>
+				);
+			case TxStatus.SUCCEEDED:
+				return (
+					<Result
+						status="success"
+						title="Transaction Successful"
+						subTitle="Successfully minted badge"
+						extra={[
+							<Button type="primary" key="explorer">
+								See Explorer
+							</Button>,
+							<Button key="dismiss">Dismiss</Button>,
+						]}
+					/>
+				);
+			case TxStatus.PENDING:
+			case TxStatus.NOT_STARTED:
+				return (
+					<div>
+						<Spin/>
+						<Button type="primary" key="explorer">
+							See Explorer
+						</Button>
+					</div>
+				);
+			default:
+				throw UnexpectedUIStateError(`expected undefined or TxStatus, got ${txStatus}`);
+		}
+	}
 
 	return (
 		<>
@@ -82,8 +146,8 @@ function MintBadges() {
 				<Button htmlType="submit">
                 	Submit
               	</Button>
-
 			</Form>
+			{ feedback() }
 		</>
 	)
 }

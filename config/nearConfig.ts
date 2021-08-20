@@ -4,6 +4,17 @@ import contractConfig from '../contract-config.json';
 // it's really referring to the contract's accountID on chain.
 const CONTRACT_ACCOUNT_ID = contractConfig.contractName
 
+export interface NearConfig {
+  networkId: string,
+  nodeUrl: string,
+  contractName: string,
+  masterAccount?: string,
+  walletUrl?: string,
+  helperUrl?: string,
+  explorerUrl?: string,
+  keyPath?: string
+}
+
 const MAINNET_CONFIG = {
   networkId: 'mainnet',
   nodeUrl: 'https://rpc.mainnet.near.org',
@@ -58,7 +69,7 @@ const CI_BETANET_CONFIG = {
   masterAccount: 'test.near',
 }
 
-export function getConfig(env: string) {
+export function getConfig(env: string): NearConfig {
   switch (env) {
     case 'mainnet':
       return MAINNET_CONFIG
