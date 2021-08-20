@@ -66,4 +66,4 @@ export const InvalidPageEnumValue = (val: any) => createError(
 export const UnknownPage = (path: string) => createError(
 	'UnknownPage',
 	`getCurrentPage received unknown path ${path}`
-)
+);
