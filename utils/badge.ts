@@ -1,10 +1,10 @@
 import { TypedJSON } from 'typedjson';
 import { NearNFT, BafBadgeDocument, BafBadge } from './badgeTypes';
 import { BadgeDocumentNotFoundError, ContractMethodNotInitializedError, DeserializationError, MalformedResponseError, NFTMediaIntegrityError, NFTReferenceIntegrityError, ReceivedInternalServerError, SerializationError, UnexpectedStatusError } from './errors';
-import { v4 as uuid } from 'uuid';
 import { sha256 } from './crypto';
 
-const UPLOAD_BADGE_PATH = 'api/uploadDocument';
+export const UPLOAD_BADGE_PATH = 'api/uploadDocument';
+export const UPLOAD_MEDIA_PATH = 'api/uploadMedia';
 
 // fee required for the minter to pay in order to mint an NFT.
 // this fee is used by the contract to cover storage costs, as on NEAR
@@ -120,12 +120,10 @@ export interface BafBadgeCreateArgs {
 	offChain: Omit<BafBadgeDocument, "badgeID">;
 }
 
-export async function mintBadge(recipientAccountID: string, badgeMediaURL: string, args: BafBadgeCreateArgs): Promise<BafBadge> {
+export async function mintBadge(badgeID: string, recipientAccountID: string, badgeMediaURL: string, args: BafBadgeCreateArgs): Promise<BafBadge> {
 	if (!window.contract.nft_mint) {
 		throw ContractMethodNotInitializedError('mint');
 	}
-
-	const badgeID = uuid().toString();
 
 	const document = badgeDocumentSerializer.parse({
 		...args.offChain,

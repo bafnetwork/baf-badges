@@ -1,1 +1,1 @@
-export const DEFAULT_BADGE_IMAGE_URL = "https://www.blockchainacceleration.org/img/logonavbar.png";
+export const DEFAULT_BADGE_IMAGE_URL = "https://raw.githubusercontent.com/bafnetwork/BAF-Website/main/public/img/BAF-Branding/Logo-01.png";
