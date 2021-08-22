@@ -3,4 +3,7 @@ module.exports = {
   images: {
     domains: ['www.blockchainacceleration.org'],
   },
+  api: {
+    bodyParser: false
+  }
 }
