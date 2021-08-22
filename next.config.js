@@ -1,9 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['www.blockchainacceleration.org'],
+    domains: ['raw.githubusercontent.com', 'storageapi.fleek.co'],
   },
-  api: {
-    bodyParser: false
-  }
 }

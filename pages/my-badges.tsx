@@ -17,6 +17,8 @@ function MyBadges() {
 		getAllBadgesForOwner(window.accountId).then(setBadges);
 	}, []);
 
+	console.log(badges);
+
 	return (
 		<div className={styles.container}>
 			<Title>My Badges</Title>
