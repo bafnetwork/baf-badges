@@ -41,15 +41,6 @@ function Home() {
         </Card>
 
         <Card
-          title="Mint Badges"
-          actions={[
-            <RightArrowLink key="mint-badges" href="/mint-badges"/>
-          ]}
-        >
-          Mint new badges.
-        </Card>
-
-        <Card
           title="About BAF Badges"
           actions={[
             <RightArrowLink key="about" href="/about"/>

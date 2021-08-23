@@ -88,9 +88,6 @@ export function Layout({ children }: LayoutProps) {
 						<Menu.Item key={PageName.MY_BADGES.toString()} onClick={onClickMenuLink('/my-badges')}>
 							My Badges	
 						</Menu.Item>
-						<Menu.Item key={PageName.MINT_BADGES.toString()} onClick={onClickMenuLink('/mint-badges')}>
-							Mint Badges
-						</Menu.Item>
 						<Menu.Item key={PageName.BADGE_GRAPH.toString()}>
 							Graph View - Coming Soon!
 						</Menu.Item>
