@@ -4,14 +4,19 @@ export declare global {
 	interface Window {
 	  // add you custom properties and methods
 	  accountId: any;
-	  walletConnection: WalletConnection;
-	  contract: Contract & ContractMethods;
+	  nftWalletConnection: WalletConnection;
+	  minterWalletConnection: WalletConnection;
+	  nft_contract: Contract & NftContractMethods;
+	  minter_contract: Contract & MinterContractMethods;
 	}
 
-	interface ContractMethods {
+	interface NftContractMethods {
+		nft_mint?: ContractChangeMethod<MintArgs>
+	}
+
+	interface NftContractMethods {
 		nft_token?: ContractViewMethod<NFTTokenArgs>;
 		nft_tokens_for_owner?: ContractViewMethod<NFTTokensForOwnerArgs>;
-		nft_mint?: ContractChangeMethod<MintArgs>;
 
 		// TODO: add type for TransferArgs
 		// see https://github.com/bafnetwork/baf-badges/issues/1
@@ -21,7 +26,7 @@ export declare global {
 
 export type ContractViewMethod<Args> = (args: Args) => Promise<any>;
 export type ContractChangeMethod<Args> = (params: ContractChangeMethodParams<Args>) => Promise<any>;
- 
+
 export interface ContractChangeMethodParams<Args> {
 	args: Args,
 	gas?: string,

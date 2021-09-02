@@ -7,6 +7,7 @@ import { getAllBadgesForOwner } from '../utils/badge';
 import { useState, useEffect } from 'react';
 import { BadgeCard } from '../components/BadgeCard/BadgeCard';
 import { Typography } from 'antd';
+import { AppContract } from '../utils/init';
 
 const { Title } = Typography;
 
@@ -30,7 +31,7 @@ function MyBadges() {
 	);
 }
 
-const Wrapped = withNearWallet(MyBadges);
+const Wrapped = withNearWallet(MyBadges, AppContract.NFT);
 
 const GetLayout = (page: any) => (
 	<Layout>

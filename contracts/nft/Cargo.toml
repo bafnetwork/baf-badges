@@ -1,5 +1,5 @@
 [package]
-name = "baf-badges-contract"
+name = "baf-badges-nft-contract"
 authors = ["Sebastien La Duca <sladuca777@gmail.com>"]
 version = "0.1.0"
 edition = "2018"
