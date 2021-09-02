@@ -1,26 +1,27 @@
+/* eslint-disable @next/next/no-img-element */
 import { BafBadge } from '../../utils/badgeTypes';
-import { Card } from 'antd'
-import Image from 'next/image';
+import { Card, Typography } from 'antd'
+import { Markdown } from '../Markdown';
 
-
-const { Meta } = Card;
+const { Title } = Typography;
 
 export function BadgeCard(badge: BafBadge) {
 	const tokenID = badge.onChain.token_id;
 	const { media, title, description } = badge.onChain.metadata;
 	return (
 		<Card
+			style={{ maxWidth: 400 }}
 			cover={
-				<Image
+				<img
 					src={media}
 					alt={tokenID}
-					layout="fill"
-					objectFit="scale-down"
+					// layout="fill"
 				/>
 			}
 			key={badge.onChain.token_id}
 		>
-			<Meta title={title} description={description}/>
+			<Title level={3} style={{ paddingBottom: '0.5rem'}}>{title}</Title>
+			<Markdown md={description}/>
 		</Card>
 	)
 }
