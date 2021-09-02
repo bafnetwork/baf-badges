@@ -16,11 +16,11 @@ const nftSerializer = new TypedJSON(NearNFT);
 const badgeDocumentSerializer = new TypedJSON(BafBadgeDocument);
 
 export async function getBadgeNFT(badgeID: string): Promise<NearNFT> {
-	if (!window.contract.nft_token) {
+	if (!window.nft_contract.nft_token) {
 		throw ContractMethodNotInitializedError('nft_token');
 	}
 
-	const nftRaw = await window.contract.nft_token({ token_id: badgeID });
+	const nftRaw = await window.nft_contract.nft_token({ token_id: badgeID });
 
 	const nft = nftSerializer.parse(nftRaw);
 	if (!nft) {
@@ -84,11 +84,11 @@ export async function getBadge(badgeID: string): Promise<BafBadge> {
 }
 
 export async function getAllNFTsForOwner(ownerAccountID: string): Promise<NearNFT[]> {
-	if (!window.contract.nft_tokens_for_owner) {
+	if (!window.nft_contract.nft_tokens_for_owner) {
 		throw ContractMethodNotInitializedError('nft_token');
 	}
 
-	const nftsRaw = await window.contract.nft_tokens_for_owner({
+	const nftsRaw = await window.nft_contract.nft_tokens_for_owner({
 		account_id: ownerAccountID
 	});
 
@@ -121,7 +121,7 @@ export interface BafBadgeCreateArgs {
 }
 
 export async function mintBadge(badgeID: string, recipientAccountID: string, badgeMediaURL: string, args: BafBadgeCreateArgs): Promise<BafBadge> {
-	if (!window.contract.nft_mint) {
+	if (!window.minter_contract.nft_mint) {
 		throw ContractMethodNotInitializedError('mint');
 	}
 
@@ -146,7 +146,7 @@ export async function mintBadge(badgeID: string, recipientAccountID: string, bad
 		reference_hash: await sha256(documentPublicUrl),
 	}
 
-	const nftRaw = await window.contract.nft_mint({
+	const nftRaw = await window.minter_contract.nft_mint({
 		args: {
 			token_id: badgeID,
 			token_owner_id: recipientAccountID,

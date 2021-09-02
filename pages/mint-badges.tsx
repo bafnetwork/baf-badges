@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { InboxOutlined } from '@ant-design/icons'
 import { MalformedResponseError, UnexpectedUIStateError } from '../utils/errors';
 import { v4 as uuid } from 'uuid';
+import { AppContract } from '../utils/init';
 
 const { Title } = Typography;
 const { Dragger } = Upload;
@@ -212,7 +213,7 @@ function MintBadges() {
 }
 
 
-const Wrapped = withNearWallet(MintBadges);
+const Wrapped = withNearWallet(MintBadges, AppContract.Minter);
 
 const GetLayout = (page: any) => (
 	<Layout>

@@ -35,7 +35,8 @@ yarn-error.log*
 .vercel
 
 # contract stuff
-contract/target
+contracts/nft/target
+contracts/minter/target
 
 # near stuff
 /neardev

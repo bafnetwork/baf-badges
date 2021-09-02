@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build-contract": "cd contract && ./build.sh",
-    "dev:deploy-contract": "./contract/dev-deploy.sh",
-    "dev:build-and-deploy-contract": "yarn build-contract && yarn dev:deploy-contract",
-    "dev": "yarn dev:build-and-deploy-contract && next dev",
+    "build-contracts": "cd contracts && ./build.sh",
+    "dev:deploy-contracts": "./contracts/dev-deploy.sh",
+    "dev:build-and-deploy-contracts": "yarn build-contracts && yarn dev:deploy-contracts",
+    "dev": "yarn dev:build-and-deploy-contracts && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

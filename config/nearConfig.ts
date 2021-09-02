@@ -2,12 +2,13 @@ import contractConfig from '../contract-config.json';
 
 // near-cli calls it "contract Name", but this name is poorly chosen
 // it's really referring to the contract's accountID on chain.
-const CONTRACT_ACCOUNT_ID = contractConfig.contractName
+const { nftContractID, minterContractID } = contractConfig;
 
 export interface NearConfig {
   networkId: string,
   nodeUrl: string,
-  contractName: string,
+  nft_contract_id: string,
+  minter_contract_id: string,
   masterAccount?: string,
   walletUrl?: string,
   helperUrl?: string,
@@ -18,7 +19,8 @@ export interface NearConfig {
 const MAINNET_CONFIG = {
   networkId: 'mainnet',
   nodeUrl: 'https://rpc.mainnet.near.org',
-  contractName: CONTRACT_ACCOUNT_ID,
+  nft_contract_id: nftContractID,
+  minter_contract_id: minterContractID,
   walletUrl: 'https://wallet.near.org',
   helperUrl: 'https://helper.mainnet.near.org',
   explorerUrl: 'https://explorer.mainnet.near.org',
@@ -27,7 +29,8 @@ const MAINNET_CONFIG = {
 const TESTNET_CONFIG = {
   networkId: 'testnet',
   nodeUrl: 'https://rpc.testnet.near.org',
-  contractName: CONTRACT_ACCOUNT_ID,
+  nft_contract_id: nftContractID,
+  minter_contract_id: minterContractID,
   walletUrl: 'https://wallet.testnet.near.org',
   helperUrl: 'https://helper.testnet.near.org',
   explorerUrl: 'https://explorer.testnet.near.org',
@@ -36,7 +39,8 @@ const TESTNET_CONFIG = {
 const BETANET_CONFIG = {
   networkId: 'betanet',
   nodeUrl: 'https://rpc.betanet.near.org',
-  contractName: CONTRACT_ACCOUNT_ID,
+  nft_contract_id: nftContractID,
+  minter_contract_id: minterContractID,
   walletUrl: 'https://wallet.betanet.near.org',
   helperUrl: 'https://helper.betanet.near.org',
   explorerUrl: 'https://explorer.betanet.near.org',
@@ -58,14 +62,16 @@ const BETANET_CONFIG = {
 const CI_CONFIG = {
   networkId: 'shared-test',
   nodeUrl: 'https://rpc.ci-testnet.near.org',
-  contractName: CONTRACT_ACCOUNT_ID,
+  nft_contract_id: nftContractID,
+  minter_contract_id: minterContractID,
   masterAccount: 'test.near',
 }
 
 const CI_BETANET_CONFIG = {
   networkId: 'shared-test-staging',
   nodeUrl: 'https://rpc.ci-betanet.near.org',
-  contractName: CONTRACT_ACCOUNT_ID,
+  nft_contract_id: nftContractID,
+  minter_contract_id: minterContractID,
   masterAccount: 'test.near',
 }
 
