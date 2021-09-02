@@ -16,6 +16,7 @@ import { InboxOutlined } from '@ant-design/icons'
 import { MalformedResponseError, UnexpectedUIStateError } from '../utils/errors';
 import { v4 as uuid } from 'uuid';
 import { AppContract } from '../utils/init';
+import { MarkdownEditor } from '../components/FormWrappers/MarkdownEditor/MarkdownEditor';
 
 const { Title } = Typography;
 const { Dragger } = Upload;
@@ -165,22 +166,22 @@ function MintBadges() {
 			<Form onFinish={onSubmit}>
 				<TextInput
 					control={control}
+					label="Recipient"
+					fieldName="recipient"
+				/>
+				
+				<TextInput
+					control={control}
 					label="Title"
 					fieldName="title"
 				/>
 
-				<TextArea
+				<MarkdownEditor
 					control={control}
 					label="Description"
 					fieldName="description"
-					helpMsg={errors.description}
 				/>
 
-				<TextInput
-					control={control}
-					label="Recipient"
-					fieldName="recipient"
-				/>
 
 				<Form.Item
 					label="Badge Media"
