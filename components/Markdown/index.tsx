@@ -25,11 +25,12 @@ export function Markdown({ md }: MarkdownProps) {
 					const match = /language-(\w+)/.exec(className || '')
 					return !inline && match ? (
 					<SyntaxHighlighter
+						// eslint-disable-next-line react/no-children-prop
 						children={String(children).replace(/\n$/, '')}
 						style={ghcolors}
 						language={match[1]}
 						PreTag="div"
-						{...props}
+						{...(props as any)}
 					/>
 					) : (
 					<code className={className} {...props}>
