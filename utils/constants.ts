@@ -2,3 +2,4 @@ export const DEFAULT_BADGE_IMAGE_URL = "https://raw.githubusercontent.com/bafnet
 export const UPLOAD_BADGE_PATH = 'api/uploadDocument';
 export const UPLOAD_MEDIA_PATH = 'api/uploadMedia';
 export const UPLOAD_LESSON_PATH = 'api/uploadLesson';
+export const FLEEK_BUCKET_BASE_URL = 'storageapi.fleek.co/baf-bucket'
