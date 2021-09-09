@@ -13,7 +13,7 @@ export enum PageName {
 	HOME = 0,
 	MY_BADGES = 1,
 	MINT_BADGES = 2,
-	BADGE_GRAPH = 3
+	LESSON_GRAPH = 3
 }
 
 const getPageTitle = (page: PageName): string => {
@@ -24,8 +24,8 @@ const getPageTitle = (page: PageName): string => {
 			return "My Badges";
 		case PageName.MINT_BADGES:
 			return "Mint Badges";
-		case PageName.BADGE_GRAPH:
-			return "Graph View";
+		case PageName.LESSON_GRAPH:
+			return "Lesson Graph";
 		default:
 			throw InvalidPageEnumValue(page);
 	}
@@ -40,7 +40,7 @@ export const getCurrentPage = (path: string): PageName => {
 		case '/mint-badges':
 			return PageName.MINT_BADGES;
 		case '/graph':
-			return PageName.BADGE_GRAPH;
+			return PageName.LESSON_GRAPH;
 		default:
 			throw UnknownPage(path);
 	}
@@ -88,8 +88,8 @@ export function Layout({ children }: LayoutProps) {
 						<Menu.Item key={PageName.MY_BADGES.toString()} onClick={onClickMenuLink('/my-badges')}>
 							My Badges	
 						</Menu.Item>
-						<Menu.Item key={PageName.BADGE_GRAPH.toString()}>
-							Graph View - Coming Soon!
+						<Menu.Item key={PageName.LESSON_GRAPH.toString()}>
+							Lesson Graph - Coming Soon!
 						</Menu.Item>
 					</Menu>
 				</Sider>

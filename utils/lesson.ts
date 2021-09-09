@@ -37,6 +37,30 @@ function lessonDocToNode(doc: LessonDocument): LessonNode {
 	}
 }
 
+export function nodeToRef(node: LessonNode): NodeRef {
+	return {
+		ref: node,
+		isLessonID() {
+			return typeof this.ref === 'string'
+		},
+		lessonID() {
+			if (typeof this.ref === 'string') {
+				return this.ref
+			}
+		
+			return this.ref.lessonID;
+		},
+		async get() {
+			if (typeof this.ref === 'string') {
+				const doc = await getLessonDocument(this.ref);
+				this.ref = lessonDocToNode(doc);
+			}
+			
+			return this.ref;
+		},
+	}
+}
+
 export interface NodeRef {
 	ref: string | LessonNode;
 	isLessonID: () => boolean;
@@ -64,7 +88,7 @@ const lessonIDToNodeRef = (lessonID: string): NodeRef => ({
 		
 		return this.ref;
 	},
-})
+});
 
 export interface LessonNode {
 	lessonID: string;
@@ -75,12 +99,30 @@ export interface LessonNode {
 	dependents: NodeRef[];
 }
 
+export type NewLessonNode = Omit<LessonNode, 'lessonID'>;
+export type NewLessonDocument = Omit<LessonDocument, 'lessonID'>;
+
 export interface UploadLessonResult {
 	url: string;
 	lessonID: string;
 }
 
-export async function uploadLessonDocument(doc: Omit<LessonDocument, 'lessonID'>): Promise<UploadLessonResult> {
+export async function uploadLesson(node: NewLessonNode): Promise<UploadLessonResult> {
+	const doc: NewLessonDocument = {
+		...node,
+		dependencies: node.dependencies.map(dep => dep.lessonID()),
+		dependents: node.dependents.map(dep => dep.lessonID()),
+	};
+
+	return await uploadLessonDocument(doc);
+};
+
+export async function getLesson(lessonID: string): Promise<LessonNode> {
+	const doc = await getLessonDocument(lessonID);
+	return lessonDocToNode(doc);
+}
+
+export async function uploadLessonDocument(doc: NewLessonDocument): Promise<UploadLessonResult> {
 	const request = new Request(UPLOAD_LESSON_PATH, {
 		method: 'POST',
 		body: JSON.stringify(doc)

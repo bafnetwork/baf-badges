@@ -32,9 +32,9 @@ function Home() {
         </Card>
 
         <Card
-          title="Badge Graph"
+          title="Lesson Graph"
           actions={[
-            <RightArrowLink key="badge-graph" href="/graph"/>
+            <RightArrowLink key="leson-graph" href="/graph"/>
           ]}
         >
           Coming Soon!
