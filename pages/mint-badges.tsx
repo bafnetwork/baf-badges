@@ -1,12 +1,12 @@
 import { Layout, PageName } from '../components/Layout/Layout';
 import { withNearWallet } from '../components/withNearWallet';
-import { mintBadge, UPLOAD_MEDIA_PATH } from '../utils/badge';
+import { mintBadge } from '../utils/badge';
 import { useForm } from 'react-hook-form';
-import { TextArea, TextInput } from '../components/FormWrappers/';
+import { TextArea, TextInput, MarkdownEditor } from '../components/FormWrappers/';
 import { vestResolver } from '@hookform/resolvers/vest';
 import vest from 'vest';
 import { vestUtils } from '../utils/misc';
-import { DEFAULT_BADGE_IMAGE_URL } from '../utils/constants';
+import { DEFAULT_BADGE_IMAGE_URL, UPLOAD_MEDIA_PATH } from '../utils/constants';
 import { Typography, Form, Button, Spin, Result, message, Upload } from 'antd';
 import { useRouter } from 'next/router';
 import { LinkButton } from '../components/LinkButton';
@@ -16,7 +16,6 @@ import { InboxOutlined } from '@ant-design/icons'
 import { MalformedResponseError, UnexpectedUIStateError } from '../utils/errors';
 import { v4 as uuid } from 'uuid';
 import { AppContract } from '../utils/init';
-import { MarkdownEditor } from '../components/FormWrappers/MarkdownEditor/MarkdownEditor';
 
 const { Title } = Typography;
 const { Dragger } = Upload;

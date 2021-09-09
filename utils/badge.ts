@@ -2,9 +2,7 @@ import { TypedJSON } from 'typedjson';
 import { NearNFT, BafBadgeDocument, BafBadge } from './badgeTypes';
 import { BadgeDocumentNotFoundError, ContractMethodNotInitializedError, DeserializationError, MalformedResponseError, NFTMediaIntegrityError, NFTReferenceIntegrityError, ReceivedInternalServerError, SerializationError, UnexpectedStatusError } from './errors';
 import { sha256 } from './crypto';
-
-export const UPLOAD_BADGE_PATH = 'api/uploadDocument';
-export const UPLOAD_MEDIA_PATH = 'api/uploadMedia';
+import { UPLOAD_BADGE_PATH } from "./constants";
 
 // fee required for the minter to pay in order to mint an NFT.
 // this fee is used by the contract to cover storage costs, as on NEAR
