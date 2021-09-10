@@ -63,6 +63,11 @@ export const LessonDocumentNotFoundError = (url: string, lessonID?: string) => c
 	lessonID ? `content for lesson ${lessonID} not found at ${url}` : `lesson content not found at ${url}`
 );
 
+export const RootLessonDirectoryError = (url: string) => createError(
+	'RootLessonDirectoryError',
+	`could not find root lesson directory at url ${url}`
+);
+
 export const InvalidPageEnumValue = (val: any) => createError(
 	'InvalidPageEnumValue',
 	`getPageTitle received invalid page enum value ${val}`

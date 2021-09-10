@@ -1,6 +1,6 @@
 import { jsonObject, jsonMember, jsonArrayMember, TypedJSON } from 'typedjson';
-import { FLEEK_BUCKET_BASE_URL, UPLOAD_LESSON_PATH } from './constants';
-import { DeserializationError, LessonDocumentNotFoundError, MalformedResponseError, ReceivedInternalServerError, UnexpectedStatusError } from './errors';
+import { FLEEK_BUCKET_BASE_URL, UPLOAD_LESSON_PATH, GET_ROOT_LESSONS_PATH} from './constants';
+import { DeserializationError, LessonDocumentNotFoundError, MalformedResponseError, ReceivedInternalServerError, RootLessonDirectoryError, UnexpectedStatusError } from './errors';
 
 // TODO: put some of this on-chain to verify authorship
 @jsonObject
@@ -148,9 +148,12 @@ export async function uploadLessonDocument(doc: NewLessonDocument): Promise<Uplo
 
 export const getLessonDocumentUrl = (lessonID: string) => `${FLEEK_BUCKET_BASE_URL}/lesson-documents/${lessonID}`;
 
-export async function getLessonDocument(lessonID: string): Promise<LessonDocument> {
-	const url = getLessonDocumentUrl(lessonID);
-	return await fetchLessonDocument(url, lessonID);
+export async function getLessonDocument(lessonIDOrUrl: string, isUrl = false): Promise<LessonDocument> {
+	if (!isUrl) {
+		const url = getLessonDocumentUrl(lessonIDOrUrl);
+		return await fetchLessonDocument(url, lessonIDOrUrl);
+	}
+	return await fetchLessonDocument(lessonIDOrUrl);
 }
 
 export async function fetchLessonDocument(url: string, lessonID?: string): Promise<LessonDocument> {
@@ -165,7 +168,28 @@ export async function fetchLessonDocument(url: string, lessonID?: string): Promi
 			}
 			return document;
 		case 404:
+			if (!lessonID) {
+				throw LessonDocumentNotFoundError(url, "omitted");
+			}
 			throw LessonDocumentNotFoundError(url, lessonID);
+		default:
+			throw UnexpectedStatusError(url, response.status)
+	}
+}
+
+export async function getRootLessonUrls(limit?: number): Promise<string[]> {
+	limit = limit ?? 0;
+	const url = `${GET_ROOT_LESSONS_PATH}/${limit}`;
+
+	const response = await window.fetch(url);
+
+	switch (response.status) {
+		case 200:
+			const body = await response.json();
+			const { nodes } = body;
+			return nodes.map((node: { url: string }) => node.url);
+		case 404:
+			throw RootLessonDirectoryError(url);
 		default:
 			throw UnexpectedStatusError(url, response.status)
 	}

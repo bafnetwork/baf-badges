@@ -3,3 +3,4 @@ export const UPLOAD_BADGE_PATH = 'api/uploadDocument';
 export const UPLOAD_MEDIA_PATH = 'api/uploadMedia';
 export const UPLOAD_LESSON_PATH = 'api/uploadLesson';
 export const FLEEK_BUCKET_BASE_URL = 'storageapi.fleek.co/baf-bucket'
+export const GET_ROOT_LESSONS_PATH = 'api/getRootLessons';

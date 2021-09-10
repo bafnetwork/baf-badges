@@ -23,13 +23,24 @@ export default async function handler(
   let lessonID = v4();
 
   try {
-    const uploadedFile = await upload({
+    let uploadedFile = await upload({
       apiKey: getFleekAPIKey(),
       apiSecret: getFleekAPISecret(),
       key: `lesson-documents/${lessonID}`,
       bucket: 'baf-bucket',
       data: req.body
     });
+
+    // if it's a root node, add it to the root documents index
+    if (req.body.dependencies?.length) {
+      uploadedFile = await upload({
+        apiKey: getFleekAPIKey(),
+        apiSecret: getFleekAPISecret(),
+        key: `${lessonID}`,
+        bucket: 'lesson-index-bucket',
+        data: req.body
+      });
+    }
 
     const url = uploadedFile.publicUrl;
     res.status(201).json({ url, lessonID });
